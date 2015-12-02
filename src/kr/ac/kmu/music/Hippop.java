@@ -5,10 +5,10 @@
  */
 package kr.ac.kmu.music;
 
-import kr.ac.kmu.music.MusicInterface.MusicVideo;
+import kr.ac.kmu.music.MusicInterface.*;
 
 public class Hippop 
-    implements MusicBase, MusicVideo
+    implements Music, MusicVideo
 {
     private int play_count;
     private String artist;
@@ -29,7 +29,7 @@ public class Hippop
     }
     
     @Override
-    public void Play()
+    public void PlayMusic()
     {
         play_count++;
     }

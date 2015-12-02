@@ -5,18 +5,19 @@
 * and open the template in the editor.
 */
 package kr.ac.kmu.main;
+
+import java.util.InputMismatchException;
+import kr.ac.kmu.music.MusicInterface.*;
 import kr.ac.kmu.music.*;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String argv[])
     {
+        final int Max = 10;
         MusicManager manager = new MusicManager();
         Scanner scanner = new Scanner(System.in);
-        Music m;
         
-        final int Max = 10;
-
         while (true)
         {
             System.out.println("*************************");
@@ -28,24 +29,25 @@ public class Main {
             System.out.println("6.Quit(나가기)");
             System.out.println("*************************");
             System.out.print(">");
-
-            int user = scanner.nextInt();
+            int user;
+            try
+            {
+                user = scanner.nextInt();
+            }
+            catch(InputMismatchException err) {
+                scanner.nextLine();
+                continue;
+            }
+            
             if (user == 1) //Retrieve
             {
                 if (manager.GetCurrentUserCount() == 0)
                 {
                     System.out.println("등록된 노래가 없습니다.");
                 }
-
                 else
                 {
-                    Music music;
-                    //print
-                    for (int i = 0; i < manager.GetCurrentUserCount(); i++)
-                    {
-                        music = manager.Retrieve(i);
-                        System.out.println((i + 1) + ".곡명:" + music.GetAlbumName() + " 아티스트:" + music.GetArtist() + " 재생 수:" + music.GetPlayCount());
-                    }
+                    manager.Retrieve(1);
                 }
             }
 
@@ -55,20 +57,21 @@ public class Main {
                     System.out.println("더이상 입력할 수 없습니다!!");
                 else
                 {
+                    System.out.print("노래 제목을 입력하세요:");
+                    String album_name = scanner.next();
+                    System.out.print("아티스트를 입력하세요:");
+                    String artist = scanner.next();
+                    
                     System.out.print("노래 종류를 선택하세요: (1)OST (2)Hip-pop (3)Remix");
                     int select_music_type = scanner.nextInt();
-                    switch(select_music_type)
-                    {
-                        case 2: 
-                    }
-                    switch()
-                    System.out.print("노래 제목을 입력하세요:");
-                    music._subject = scanner.next();
-                    System.out.print("아티스트를 입력하세요:");
-                    music._artist = scanner.next();
-
+                    
+                    Music music;
+                    if(1 == select_music_type) music = new Ost(artist, album_name);
+                    else if(2 == select_music_type) music = new Hippop(artist, album_name);
+                    else if(3 == select_music_type) music = new Remix(artist, album_name);
+                    else music = new Ost(artist, album_name); // Default music type!
                     manager.Add(music);
-                    System.out.println("곡명:" + music._subject + " 아티스트:" + music._artist + " 추가됨.");
+                    System.out.println("곡명:" + music.GetAlbumName() + " 아티스트:" + music.GetArtist() + " 추가됨.");
                 }
             }
 
@@ -97,7 +100,6 @@ public class Main {
 
             else if (user == 4) //Update
             {
-                MusicInfo music = new MusicInfo();
                 int number = 0;
 
                 while (true)
@@ -112,14 +114,13 @@ public class Main {
 
                     else
                     {
-
                         System.out.print("변경될 곡명을 입력하세요:");
-                        music._subject = scanner.next();
+                        String album_name = scanner.next();
                         System.out.print("변경될 아티스트를 입력하세요:");
-                        music._artist = scanner.next();
+                        String artist = scanner.next();
 
-                        manager.Update(number, music);
-                        System.out.println(number + ".곡명:" + music._subject + " 아티스트:" + music._artist + " 변경됨.");
+                        manager.Update(number, artist, album_name);
+                        System.out.println(number + ".곡명:" + album_name + " 아티스트:" + artist + " 변경됨.");
 
                         break;
                     }
@@ -139,10 +140,27 @@ public class Main {
                         {
                             System.out.println("해당 노래가 없습니다.");
                         }
-
                         else
                         {
-                            manager.playMusic(number - 1);
+                            System.out.print("Play type (1) Music (2) Music video (3) Music Bell? ");
+                            int option = scanner.nextInt();
+                            switch(option)
+                            {
+                                case 1:
+                                    if(!manager.PlayMusic(number - 1))
+                                        System.out.println("지원하지 않는 기능입니다.");
+                                    break;
+                                case 2:
+                                    if(!manager.PlayMusicVideo(number - 1))
+                                        System.out.println("지원하지 않는 기능입니다.");
+                                    break;
+                                case 3:
+                                    if(!manager.PlayMusicBell(number - 1))
+                                        System.out.println("지원하지 않는 기능입니다.");
+                                    break;
+                                default:
+                                    System.out.println("지원하지 않는 기능입니다.");
+                            }
                             break;
                         }
                     }

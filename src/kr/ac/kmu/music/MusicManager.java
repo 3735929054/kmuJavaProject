@@ -4,9 +4,8 @@
  * and open the template in the editor.
  */
 package kr.ac.kmu.music;
-import java.util.HashSet;
-import java.util.Set;
-import kr.ac.kmu.*;
+
+import kr.ac.kmu.music.MusicInterface.*;
 
 /**
  *
@@ -21,19 +20,15 @@ public class MusicManager {
     {
         MAX_MUSIC_DATA_NUM = 10;
         music_data = new Music[MAX_MUSIC_DATA_NUM];
-        for(int i = 0; i < MAX_MUSIC_DATA_NUM; ++i)
-            music_data[i] = new Music();
     }
     
     public MusicManager(int allow_size)
     {
         MAX_MUSIC_DATA_NUM = allow_size;
         music_data = new Music[MAX_MUSIC_DATA_NUM];
-        for(int i = 0; i < MAX_MUSIC_DATA_NUM; ++i)
-            music_data[i] = new Music();
     }
     
-    public Music Retrieve(int src_index) throws ArrayIndexOutOfBoundsException
+    public Music Retrieve(int src_index)
     {
         return music_data[src_index];
     }
@@ -43,6 +38,7 @@ public class MusicManager {
         try
         {
             music_data[user_count] = new_music;
+            ++user_count;
         }
         catch(ArrayIndexOutOfBoundsException err) {
             throw new ArrayIndexOutOfBoundsException();
@@ -93,6 +89,67 @@ public class MusicManager {
         }
         catch(NullPointerException err) {
             throw new NullPointerException();
+        }
+    }
+    
+    public void Update(int src_index, Music update_music_data)
+    {
+        try
+        {
+            music_data[src_index] = update_music_data;
+        }
+        catch(ArrayIndexOutOfBoundsException err) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+        catch(NullPointerException err) {
+            throw new NullPointerException();
+        }
+    }
+    
+    public boolean PlayMusic(int music_num)
+    {
+        try
+        {
+            music_data[music_num].PlayMusic();
+            return true;
+        }
+        catch(ClassCastException err) {
+            return false;
+        }
+        catch(ArrayIndexOutOfBoundsException err) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+    }
+    
+    public boolean PlayMusicVideo(int music_num)
+    {
+        try
+        {
+            MusicVideo mv = (MusicVideo)music_data[music_num];
+            mv.PlayVideo();
+            return true;
+        }
+        catch(ClassCastException err) {
+            return false;
+        }
+        catch(ArrayIndexOutOfBoundsException err) {
+            throw new ArrayIndexOutOfBoundsException();
+        }
+    }
+    
+    public boolean PlayMusicBell(int music_num)
+    {
+        try
+        {
+            MusicBell mb = (MusicBell)music_data[music_num];
+            mb.PlayBell();
+            return true;
+        }
+        catch(ClassCastException err) {
+            return false;
+        }
+        catch(ArrayIndexOutOfBoundsException err) {
+            throw new ArrayIndexOutOfBoundsException();
         }
     }
     

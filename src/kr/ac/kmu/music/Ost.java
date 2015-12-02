@@ -5,8 +5,10 @@
  */
 package kr.ac.kmu.music;
 
+import kr.ac.kmu.music.MusicInterface.*;
+
 public class Ost
-    implements MusicBase, MusicVideo, MusicBell
+    implements Music, MusicVideo, MusicBell
 {
     private int play_count;
     private String artist;
@@ -27,7 +29,7 @@ public class Ost
     }
     
     @Override
-    public void Play()
+    public void PlayMusic()
     {
         play_count++;
     }
