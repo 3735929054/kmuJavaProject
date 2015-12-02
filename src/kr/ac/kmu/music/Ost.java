@@ -10,16 +10,19 @@ public class Ost
 {
     private int play_count;
     private String artist;
+    private String album_name;
     
-    Ost()
+    public Ost()
     {
         artist = "Unknown";
+        album_name = "Unknown";
         play_count = 0;
     }
     
-    Ost(String arg_artist)
+    public Ost(String arg_artist, String arg_album_name)
     {
         artist = arg_artist;
+        album_name = arg_album_name;
         play_count = 0;
     }
     
@@ -48,6 +51,12 @@ public class Ost
     }
     
     @Override
+    public String GetAlbumName()
+    {
+        return album_name;
+    }
+    
+    @Override
     public int GetPlayCount()
     {
         return play_count;
@@ -57,5 +66,11 @@ public class Ost
     public void SetArtist(String name)
     {
         artist = name;
+    }
+    
+    @Override
+    public void SetAlbumName(String name)
+    {
+        album_name = name;
     }
 }

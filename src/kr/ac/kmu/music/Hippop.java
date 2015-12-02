@@ -5,21 +5,26 @@
  */
 package kr.ac.kmu.music;
 
+import kr.ac.kmu.music.MusicInterface.MusicVideo;
+
 public class Hippop 
     implements MusicBase, MusicVideo
 {
     private int play_count;
     private String artist;
+    private String album_name;
     
-    Hippop()
+    public Hippop()
     {
         artist = "Unknown";
+        album_name = "Unknown";
         play_count = 0;
     }
     
-    Hippop(String arg_artist)
+    public Hippop(String arg_artist, String arg_album_name)
     {
         artist = arg_artist;
+        album_name = arg_album_name;
         play_count = 0;
     }
     
@@ -33,6 +38,12 @@ public class Hippop
     public String GetArtist()
     {
         return artist;
+    }
+    
+    @Override
+    public String GetAlbumName()
+    {
+        return album_name;
     }
     
     @Override
@@ -51,5 +62,11 @@ public class Hippop
     public void SetArtist(String name)
     {
         artist = name;
+    }
+    
+    @Override
+    public void SetAlbumName(String name)
+    {
+        album_name = name;
     }
 }

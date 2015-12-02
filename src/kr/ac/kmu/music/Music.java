@@ -21,6 +21,12 @@ public class Music
     }
     
     @Override
+    public String GetAlbumName()
+    {
+        return "Unknown";
+    }
+    
+    @Override
     public int GetPlayCount()
     {
         return 0;
@@ -28,6 +34,12 @@ public class Music
     
     @Override
     public void SetArtist(String name)
+    {
+        return;
+    }
+    
+    @Override
+    public void SetAlbumName(String name)
     {
         return;
     }

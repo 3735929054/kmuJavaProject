@@ -5,20 +5,25 @@
  */
 package kr.ac.kmu.music;
 
-interface MusicBase
+public class MusicInterface
 {
-    void Play();
-    String GetArtist();
-    int GetPlayCount();
-    void SetArtist(String name);
-}
+    public interface MusicBase
+    {
+        void Play();
+        String GetArtist();
+        String GetAlbumName();
+        int GetPlayCount();
+        void SetArtist(String name);
+        void SetAlbumName(String name);
+    }
 
-interface MusicVideo
-{
-    void PlayVideo();
-}
+    public interface MusicVideo
+    {
+        void PlayVideo();
+    }
 
-interface MusicBell
-{
-    void PlayBell();
+    public interface MusicBell
+    {
+        void PlayBell();
+    }
 }

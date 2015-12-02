@@ -10,16 +10,19 @@ public class Remix
 {
     private int play_count;
     private String artist;
+    private String album_name;
     
-    Remix()
+    public Remix()
     {
         artist = "Unknown";
+        album_name = "Unknown";
         play_count = 0;
     }
     
-    Remix(String arg_artist)
+    public Remix(String arg_artist, String arg_album_name)
     {
         artist = arg_artist;
+        album_name = arg_album_name;
         play_count = 0;
     }
     
@@ -33,6 +36,12 @@ public class Remix
     public String GetArtist()
     {
         return artist;
+    }
+    
+    @Override
+    public String GetAlbumName()
+    {
+        return album_name;
     }
     
     @Override
@@ -51,5 +60,11 @@ public class Remix
     public void SetArtist(String name)
     {
         artist = name;
+    }
+    
+    @Override
+    public void SetAlbumName(String name)
+    {
+        album_name = name;
     }
 }
