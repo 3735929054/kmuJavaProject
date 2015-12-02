@@ -49,7 +49,7 @@ public class MusicManager {
     {
         try
         {
-            for(int i = target_index; i < MAX_MUSIC_DATA_NUM; ++i)
+            for(int i = target_index; i < user_count; ++i)
             {
                 music_data[i] = music_data[i + 1];
             }

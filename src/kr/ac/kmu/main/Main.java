@@ -47,7 +47,44 @@ public class Main {
                 }
                 else
                 {
-                    manager.Retrieve(1);
+                    System.out.println("OST");
+                    for(int i = 0; i < manager.GetCurrentUserCount(); ++i)
+                    {
+                        try
+                        {
+                            Ost music = (Ost)manager.Retrieve(i);
+                            System.out.println((i + 1) + ". 곡이름:" + music.GetAlbumName() + " 가수:" + music.GetArtist() + " 재생수[" + music.GetPlayCount() + "]");
+                        }
+                        catch(ClassCastException err) {
+                            
+                        }
+                    }
+                    
+                    System.out.println("HIP POP");
+                    for(int i = 0; i < manager.GetCurrentUserCount(); ++i)
+                    {
+                        try
+                        {
+                            Hippop music = (Hippop)manager.Retrieve(i);
+                            System.out.println((i + 1) + ". 곡이름:" + music.GetAlbumName() + " 가수:" + music.GetArtist() + " 재생수[" + music.GetPlayCount() + "]");
+                        }
+                        catch(ClassCastException err) {
+                            
+                        }
+                    }
+                    
+                    System.out.println("Remix");
+                    for(int i = 0; i < manager.GetCurrentUserCount(); ++i)
+                    {
+                        try
+                        {
+                            Remix music = (Remix)manager.Retrieve(i);
+                            System.out.println((i + 1) + ". 곡이름:" + music.GetAlbumName() + " 가수:" + music.GetArtist() + " 재생수[" + music.GetPlayCount() + "]");
+                        }
+                        catch(ClassCastException err) {
+                            
+                        }
+                    }
                 }
             }
 
@@ -89,9 +126,7 @@ public class Main {
                     {
                         System.out.println("해당 노래가 없습니다.");
                     }
-
-                    else
-                    {
+                    else {
                         manager.Delete(number);
                         break;
                     }
@@ -110,16 +145,15 @@ public class Main {
                     if (number > manager.GetCurrentUserCount() || number <= 0)
                     {
                         System.out.println("해당 노래가 없습니다.");
+                        break;
                     }
-
-                    else
-                    {
+                    else {
                         System.out.print("변경될 곡명을 입력하세요:");
                         String album_name = scanner.next();
                         System.out.print("변경될 아티스트를 입력하세요:");
                         String artist = scanner.next();
 
-                        manager.Update(number, artist, album_name);
+                        manager.Update(number - 1, artist, album_name);
                         System.out.println(number + ".곡명:" + album_name + " 아티스트:" + artist + " 변경됨.");
 
                         break;
@@ -140,8 +174,7 @@ public class Main {
                         {
                             System.out.println("해당 노래가 없습니다.");
                         }
-                        else
-                        {
+                        else {
                             System.out.print("Play type (1) Music (2) Music video (3) Music Bell? ");
                             int option = scanner.nextInt();
                             switch(option)
