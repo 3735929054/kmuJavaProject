@@ -6,53 +6,48 @@
 package kr.ac.kmu.music;
 
 import kr.ac.kmu.music.MusicInterface.*;
-
+import java.util.Vector;
 /**
  *
  * @author imgomi
  */
 public class MusicManager {
     private final int MAX_MUSIC_DATA_NUM;
-    private Music[] music_data;
+    private Vector<Music> music_data = new Vector<Music>();
     private int user_count = 0;
     
     public MusicManager()
     {
         MAX_MUSIC_DATA_NUM = 10;
-        music_data = new Music[MAX_MUSIC_DATA_NUM];
     }
     
     public MusicManager(int allow_size)
     {
         MAX_MUSIC_DATA_NUM = allow_size;
-        music_data = new Music[MAX_MUSIC_DATA_NUM];
     }
     
     public Music Retrieve(int src_index)
     {
-        return music_data[src_index];
+        try
+        {
+            return music_data.get(src_index);
+        }
+        catch(ArrayIndexOutOfBoundsException err) {
+            return new Ost(); // Default music type
+        }
     }
     
     public void Add(Music new_music)
     {
-        try
-        {
-            music_data[user_count] = new_music;
+            music_data.add(new_music);
             ++user_count;
-        }
-        catch(ArrayIndexOutOfBoundsException err) {
-            throw new ArrayIndexOutOfBoundsException();
-        }
     }
     
     public void Delete(final int target_index)
     {
         try
         {
-            for(int i = target_index; i < user_count; ++i)
-            {
-                music_data[i] = music_data[i + 1];
-            }
+            music_data.remove(target_index);
             --user_count;
         }
         catch(ArrayIndexOutOfBoundsException err) {
@@ -67,7 +62,8 @@ public class MusicManager {
     {
         try
         {
-            music_data[src_index].SetArtist(artist);
+            Music update = music_data.get(src_index);
+            update.SetArtist(artist);
         }
         catch(ArrayIndexOutOfBoundsException err) {
             throw new ArrayIndexOutOfBoundsException();
@@ -81,8 +77,9 @@ public class MusicManager {
     {
         try
         {
-            music_data[src_index].SetArtist(artist);
-            music_data[src_index].SetAlbumName(album_name);
+            Music update = music_data.get(src_index);
+            update.SetArtist(artist);
+            update.SetAlbumName(album_name);
         }
         catch(ArrayIndexOutOfBoundsException err) {
             throw new ArrayIndexOutOfBoundsException();
@@ -96,7 +93,9 @@ public class MusicManager {
     {
         try
         {
-            music_data[src_index] = update_music_data;
+            Music update = music_data.get(src_index);
+            update.SetArtist(update_music_data.GetArtist());
+            update.SetAlbumName(update_music_data.GetAlbumName());
         }
         catch(ArrayIndexOutOfBoundsException err) {
             throw new ArrayIndexOutOfBoundsException();
@@ -110,14 +109,11 @@ public class MusicManager {
     {
         try
         {
-            music_data[music_num].PlayMusic();
+            music_data.get(music_num).PlayMusic();
             return true;
         }
-        catch(ClassCastException err) {
-            return false;
-        }
         catch(ArrayIndexOutOfBoundsException err) {
-            throw new ArrayIndexOutOfBoundsException();
+            return false;
         }
     }
     
@@ -125,7 +121,7 @@ public class MusicManager {
     {
         try
         {
-            MusicVideo mv = (MusicVideo)music_data[music_num];
+            MusicVideo mv = (MusicVideo)music_data.get(music_num);
             mv.PlayVideo();
             return true;
         }
@@ -141,7 +137,7 @@ public class MusicManager {
     {
         try
         {
-            MusicBell mb = (MusicBell)music_data[music_num];
+            MusicBell mb = (MusicBell)music_data.get(music_num);
             mb.PlayBell();
             return true;
         }
