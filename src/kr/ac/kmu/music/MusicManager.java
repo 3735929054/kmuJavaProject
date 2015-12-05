@@ -153,4 +153,11 @@ public class MusicManager {
     {
         return user_count;
     }
+    
+    public Vector<Music> GetMusicRank()
+    {
+        Vector<Music> tmp = music_data;
+        // 구현중.
+        return tmp;
+    }
 }
