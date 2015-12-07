@@ -135,10 +135,10 @@ public class Main {
 
                         if (manager.Delete(number - 1))
                         {
-                            System.out.println("해당 노래가 없습니다.");
+                            break;
                         }
                         else {
-                            break;
+                            System.out.println("해당 노래가 없습니다.");
                         }
                     }
             }
