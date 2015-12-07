@@ -87,32 +87,27 @@ public class Main {
                     }
                 }
             }
-
-            else if (user == 2) //Add
+            //Add
+            else if (user == 2)
             {
-                if (manager.GetCurrentUserCount() == Max)
-                    System.out.println("더이상 입력할 수 없습니다!!");
-                else
-                {
-                    System.out.print("노래 제목을 입력하세요:");
-                    String album_name = scanner.next();
-                    System.out.print("아티스트를 입력하세요:");
-                    String artist = scanner.next();
-                    
-                    System.out.print("노래 종류를 선택하세요: (1)OST (2)Hip-pop (3)Remix");
-                    int select_music_type = scanner.nextInt();
-                    
-                    Music music;
-                    if(1 == select_music_type) music = new Ost(artist, album_name);
-                    else if(2 == select_music_type) music = new Hippop(artist, album_name);
-                    else if(3 == select_music_type) music = new Remix(artist, album_name);
-                    else music = new Ost(artist, album_name); // Default music type!
-                    manager.Add(music);
-                    System.out.println("곡명:" + music.GetAlbumName() + " 아티스트:" + music.GetArtist() + " 추가됨.");
-                }
-            }
+                System.out.print("노래 제목을 입력하세요:");
+                String album_name = scanner.next();
+                System.out.print("아티스트를 입력하세요:");
+                String artist = scanner.next();
 
-            else if (user == 3) //Delete
+                System.out.print("노래 종류를 선택하세요: (1)OST (2)Hip-pop (3)Remix");
+                int select_music_type = scanner.nextInt();
+
+                Music music;
+                if(1 == select_music_type) music = new Ost(artist, album_name);
+                else if(2 == select_music_type) music = new Hippop(artist, album_name);
+                else if(3 == select_music_type) music = new Remix(artist, album_name);
+                else music = new Ost(artist, album_name); // Default music type!
+                manager.Add(music);
+                System.out.println("곡명:" + music.GetAlbumName() + " 아티스트:" + music.GetArtist() + " 추가됨.");
+            }
+            //Delete
+            else if (user == 3)
             {
                 int number = 0;
 
@@ -132,8 +127,8 @@ public class Main {
                     }
                 }
             }
-
-            else if (user == 4) //Update
+            //Update
+            else if (user == 4)
             {
                 int number = 0;
 
@@ -160,8 +155,8 @@ public class Main {
                     }
                 }
             }
-
-            else if (user == 5) //Player
+            //Player
+            else if (user == 5)
             {
                 if (0 != manager.GetCurrentUserCount())
                 {
@@ -201,8 +196,8 @@ public class Main {
                 else
                     System.out.println("등록된 노래가 없습니다.");
             }
-
-            else if (user == 6) //Quit
+            //Quit
+            else if (user == 6) 
             {
                 System.out.println("Bye");
                 break;
