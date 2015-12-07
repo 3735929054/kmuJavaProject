@@ -12,18 +12,11 @@ import java.util.Vector;
  * @author imgomi
  */
 public class MusicManager {
-    private final int MAX_MUSIC_DATA_NUM;
-    private Vector<Music> music_data = new Vector<Music>();
-    private int user_count = 0;
+    private final Vector<Music> music_data = new Vector<Music>();
     
     public MusicManager()
     {
-        MAX_MUSIC_DATA_NUM = 10;
-    }
-    
-    public MusicManager(int allow_size)
-    {
-        MAX_MUSIC_DATA_NUM = allow_size;
+        
     }
     
     public Music Retrieve(int src_index)
@@ -33,75 +26,66 @@ public class MusicManager {
             return music_data.get(src_index);
         }
         catch(ArrayIndexOutOfBoundsException err) {
-            return new Ost(); // Default music type
+            return null;
         }
     }
     
     public void Add(Music new_music)
     {
-            music_data.add(new_music);
-            ++user_count;
+        if(null != new_music) music_data.add(new_music);
     }
     
-    public void Delete(final int target_index)
+    public boolean Delete(final int target_index)
     {
         try
         {
             music_data.remove(target_index);
-            --user_count;
+            return true;
         }
         catch(ArrayIndexOutOfBoundsException err) {
-            throw new ArrayIndexOutOfBoundsException();
-        }
-        catch(NullPointerException err) {
-            throw new NullPointerException();
+            return false;
         }
     }
     
-    public void Update(int src_index, String artist)
+    public boolean Update(int src_index, String artist)
     {
         try
         {
             Music update = music_data.get(src_index);
             update.SetArtist(artist);
+            return true;
         }
         catch(ArrayIndexOutOfBoundsException err) {
-            throw new ArrayIndexOutOfBoundsException();
-        }
-        catch(NullPointerException err) {
-            throw new NullPointerException();
+            return false;
         }
     }
     
-    public void Update(int src_index, String artist, String album_name)
+    public boolean Update(int src_index, String artist, String album_name)
     {
         try
         {
             Music update = music_data.get(src_index);
             update.SetArtist(artist);
             update.SetAlbumName(album_name);
+            return true;
         }
         catch(ArrayIndexOutOfBoundsException err) {
-            throw new ArrayIndexOutOfBoundsException();
-        }
-        catch(NullPointerException err) {
-            throw new NullPointerException();
+            return false;
         }
     }
     
-    public void Update(int src_index, Music update_music_data)
+    public boolean Update(int src_index, Music update_music_data)
     {
         try
         {
             Music update = music_data.get(src_index);
             update.SetArtist(update_music_data.GetArtist());
             update.SetAlbumName(update_music_data.GetAlbumName());
+            
+            return true;
         }
         catch(ArrayIndexOutOfBoundsException err) {
-            throw new ArrayIndexOutOfBoundsException();
-        }
-        catch(NullPointerException err) {
-            throw new NullPointerException();
+            return false;
         }
     }
     
@@ -125,11 +109,8 @@ public class MusicManager {
             mv.PlayVideo();
             return true;
         }
-        catch(ClassCastException err) {
+        catch(ClassCastException | ArrayIndexOutOfBoundsException err) {
             return false;
-        }
-        catch(ArrayIndexOutOfBoundsException err) {
-            throw new ArrayIndexOutOfBoundsException();
         }
     }
     
@@ -141,17 +122,14 @@ public class MusicManager {
             mb.PlayBell();
             return true;
         }
-        catch(ClassCastException err) {
+        catch(ClassCastException | ArrayIndexOutOfBoundsException err) {
             return false;
-        }
-        catch(ArrayIndexOutOfBoundsException err) {
-            throw new ArrayIndexOutOfBoundsException();
         }
     }
     
     public int GetCurrentUserCount()
     {
-        return user_count;
+        return music_data.size();
     }
     
     public Vector<Music> GetMusicRank()

@@ -55,9 +55,7 @@ public class Main {
                             Ost music = (Ost)manager.Retrieve(i);
                             System.out.println((i + 1) + ". 곡이름:" + music.GetAlbumName() + " 가수:" + music.GetArtist() + " 재생수[" + music.GetPlayCount() + "]");
                         }
-                        catch(ClassCastException err) {
-                            
-                        }
+                        catch(ClassCastException err) {}
                     }
                     
                     System.out.println("HIP POP");
@@ -68,9 +66,7 @@ public class Main {
                             Hippop music = (Hippop)manager.Retrieve(i);
                             System.out.println((i + 1) + ". 곡이름:" + music.GetAlbumName() + " 가수:" + music.GetArtist() + " 재생수[" + music.GetPlayCount() + "]");
                         }
-                        catch(ClassCastException err) {
-                            
-                        }
+                        catch(ClassCastException err) {}
                     }
                     
                     System.out.println("Remix");
@@ -81,9 +77,7 @@ public class Main {
                             Remix music = (Remix)manager.Retrieve(i);
                             System.out.println((i + 1) + ". 곡이름:" + music.GetAlbumName() + " 가수:" + music.GetArtist() + " 재생수[" + music.GetPlayCount() + "]");
                         }
-                        catch(ClassCastException err) {
-                            
-                        }
+                        catch(ClassCastException err) {}
                     }
                 }
             }
@@ -96,64 +90,90 @@ public class Main {
                 String artist = scanner.next();
 
                 System.out.print("노래 종류를 선택하세요: (1)OST (2)Hip-pop (3)Remix");
-                int select_music_type = scanner.nextInt();
+                int select_music_type;
+                try{ select_music_type = scanner.nextInt(); }
+                catch(InputMismatchException err) { scanner.nextLine(); continue; }
 
                 Music music;
-                if(1 == select_music_type) music = new Ost(artist, album_name);
-                else if(2 == select_music_type) music = new Hippop(artist, album_name);
-                else if(3 == select_music_type) music = new Remix(artist, album_name);
-                else music = new Ost(artist, album_name); // Default music type!
-                manager.Add(music);
-                System.out.println("곡명:" + music.GetAlbumName() + " 아티스트:" + music.GetArtist() + " 추가됨.");
+                switch (select_music_type) {
+                    case 1:
+                        music = new Ost(artist, album_name);
+                        break;
+                    case 2:
+                        music = new Hippop(artist, album_name);
+                        break;
+                    case 3:
+                        music = new Remix(artist, album_name);
+                        break;
+                    default:
+                        music = null;
+                        break;
+                }
+                try
+                {
+                    System.out.println("곡명:" + music.GetAlbumName() + " 아티스트:" + music.GetArtist() + " 추가됨.");
+                    manager.Add(music);
+                }
+                catch(NullPointerException err) {
+                    System.out.println("잘못된 노래 종류입니다.");
+                }
             }
             //Delete
             else if (user == 3)
             {
-                int number = 0;
-
-                while (true)
+                int number;
+                if(0 == manager.GetCurrentUserCount())
                 {
-                    System.out.print("Delete No?");
-                    number = scanner.nextInt();
-                    number--;
-
-                    if (number + 1 < 1 || number + 1 > manager.GetCurrentUserCount())
-                    {
-                        System.out.println("해당 노래가 없습니다.");
-                    }
-                    else {
-                        manager.Delete(number);
-                        break;
-                    }
+                    System.out.println("등록된 노래가 없습니다.");
                 }
+                else
+                    while (true)
+                    {
+                        System.out.print("Delete No?");
+                        try{ number = scanner.nextInt(); }
+                        catch(InputMismatchException err) { scanner.nextLine(); continue; }
+
+                        if (manager.Delete(number - 1))
+                        {
+                            System.out.println("해당 노래가 없습니다.");
+                        }
+                        else {
+                            break;
+                        }
+                    }
             }
             //Update
-            else if (user == 4)
+            else if (4 == user)
             {
-                int number = 0;
-
-                while (true)
+                int number;
+                if(0 == manager.GetCurrentUserCount())
                 {
-                    System.out.print("Update No?");
-                    number = scanner.nextInt();
-
-                    if (number > manager.GetCurrentUserCount() || number <= 0)
-                    {
-                        System.out.println("해당 노래가 없습니다.");
-                        break;
-                    }
-                    else {
-                        System.out.print("변경될 곡명을 입력하세요:");
-                        String album_name = scanner.next();
-                        System.out.print("변경될 아티스트를 입력하세요:");
-                        String artist = scanner.next();
-
-                        manager.Update(number - 1, artist, album_name);
-                        System.out.println(number + ".곡명:" + album_name + " 아티스트:" + artist + " 변경됨.");
-
-                        break;
-                    }
+                    System.out.println("등록된 노래가 없습니다.");
                 }
+                else
+                    while (true)
+                    {
+                        System.out.print("Update No?");
+                        try{ number = scanner.nextInt(); }
+                        catch(InputMismatchException err) { scanner.nextLine(); continue; }
+
+                        if (number > manager.GetCurrentUserCount() || number <= 0)
+                        {
+                            System.out.println("해당 노래가 없습니다.");
+                            continue;
+                        }
+                        else {
+                            System.out.print("변경될 곡명을 입력하세요:");
+                            String album_name = scanner.next();
+                            System.out.print("변경될 아티스트를 입력하세요:");
+                            String artist = scanner.next();
+
+                            manager.Update(number - 1, artist, album_name);
+                            System.out.println(number + ".곡명:" + album_name + " 아티스트:" + artist + " 변경됨.");
+
+                            break;
+                        }
+                    }
             }
             //Player
             else if (user == 5)
@@ -163,7 +183,9 @@ public class Main {
                     while (true)
                     {
                         System.out.print("Music No?");
-                        int number = scanner.nextInt();
+                        int number;
+                        try{ number = scanner.nextInt(); }
+                        catch(InputMismatchException err) { scanner.nextLine(); continue; }
 
                         if (number > manager.GetCurrentUserCount() || number <= 0)
                         {
@@ -171,7 +193,10 @@ public class Main {
                         }
                         else {
                             System.out.print("Play type (1) Music (2) Music video (3) Music Bell? ");
-                            int option = scanner.nextInt();
+                            int option;
+                            try{ option = scanner.nextInt(); }
+                            catch(InputMismatchException err) { scanner.nextLine(); continue; }
+                            
                             switch(option)
                             {
                                 case 1:
@@ -193,8 +218,7 @@ public class Main {
                         }
                     }
                 }
-                else
-                    System.out.println("등록된 노래가 없습니다.");
+                else System.out.println("등록된 노래가 없습니다.");
             }
             //Quit
             else if (user == 6) 
