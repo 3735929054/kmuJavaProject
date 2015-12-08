@@ -7,10 +7,7 @@ package kr.ac.kmu.music;
 
 import kr.ac.kmu.music.MusicInterface.*;
 import java.util.Vector;
-/**
- *
- * @author imgomi
- */
+
 public class MusicManager {
     private final Vector<Music> music_data = new Vector<Music>();
     
