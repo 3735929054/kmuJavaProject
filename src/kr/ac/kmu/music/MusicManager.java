@@ -129,10 +129,21 @@ public class MusicManager {
         return music_data.size();
     }
     
-    public Vector<Music> GetMusicRank()
+    public void SetSortMusicData()
     {
-        Vector<Music> tmp = music_data;
-        // 구현중.
-        return tmp;
+        for(int i = 0; i < music_data.size(); ++i)
+        {
+            for(int j = 0; j < i; ++j)
+            {
+                if(music_data.get(i).GetPlayCount() > music_data.get(j).GetPlayCount())
+                {
+                    Music tmp;
+                    tmp = music_data.get(i);
+                    music_data.removeElementAt(i);
+                    music_data.insertElementAt(tmp, j);
+                    break;
+                }
+            }
+        }
     }
 }
